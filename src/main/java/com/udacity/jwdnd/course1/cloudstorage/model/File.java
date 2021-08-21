@@ -3,14 +3,14 @@ package com.udacity.jwdnd.course1.cloudstorage.model;
 import java.util.Arrays;
 
 public class File {
-    private int fileid;
-    private int userid;
+    private Integer fileid;
+    private Integer userid;
     private String filename;
     private String contenttype;
     private String filesize;
     private byte[] filedata;
 
-    public File(int fileid, int userid, String filename, String contenttype, String filesize, byte[] filedata) {
+    public File(Integer fileid, Integer userid, String filename, String contenttype, String filesize, byte[] filedata) {
         this.fileid = fileid;
         this.userid = userid;
         this.filename = filename;
@@ -31,19 +31,19 @@ public class File {
                 '}';
     }
 
-    public int getFileid() {
+    public Integer getFileid() {
         return fileid;
     }
 
-    public void setFileid(int fileid) {
+    public void setFileid(Integer fileid) {
         this.fileid = fileid;
     }
 
-    public int getUserid() {
+    public Integer getUserid() {
         return userid;
     }
 
-    public void setUserid(int userid) {
+    public void setUserid(Integer userid) {
         this.userid = userid;
     }
 
