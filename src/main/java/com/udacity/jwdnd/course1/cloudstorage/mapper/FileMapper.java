@@ -15,7 +15,7 @@ public interface FileMapper {
 
     @Insert("INSERT INTO files ( filename,userid,contenttype,filesize,filedata) VALUES(#{fileName}, #{owner},#{contenttype},#{filesize},#{filedata})")
     @Options(useGeneratedKeys = true, keyProperty = "fileid")
-    int insertFileUrl(File file);
+    int insertFile(File file);
 
     @Select("SELECT * FROM files WHERE userid = #{owner}")
     List<File> getAllFiles(int userid);
