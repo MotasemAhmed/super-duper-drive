@@ -1,15 +1,15 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class User {
-    private Integer userid;
+    private Integer userId;
     private String username;
     private String salt;
     private String password;
     private String firstname;
     private String lastname;
 
-    public User(Integer userid, String username, String salt, String password, String firstname, String lastname) {
-        this.userid = userid;
+    public User(Integer userId, String username, String salt, String password, String firstname, String lastname) {
+        this.userId = userId;
         this.username = username;
         this.salt = salt;
         this.password = password;
@@ -20,7 +20,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userid=" + userid +
+                "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", salt='" + salt + '\'' +
                 ", password='" + password + '\'' +
@@ -29,12 +29,12 @@ public class User {
                 '}';
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

@@ -22,7 +22,7 @@ public class NoteService {
     }
 
     public int addNote(String title, String description, int userId) {
-        Note note = new Note(0, userId, title, description);
+        Note note = new Note(0, title, description, userId);
         return noteMapper.insertNote(note);
     }
 

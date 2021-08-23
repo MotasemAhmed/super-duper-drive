@@ -1,57 +1,57 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 public class Note {
-    private Integer noteid;
-    private Integer userid;
-    private String notetitle;
-    private String notedescription;
+    private Integer noteId;
+    private Integer userId;
+    private String noteTitle;
+    private String noteDescription;
 
-    public Note(Integer noteid, Integer userid, String notetitle, String notedescription) {
-        this.noteid = noteid;
-        this.userid = userid;
-        this.notetitle = notetitle;
-        this.notedescription = notedescription;
+    public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
+        this.noteId = noteId;
+        this.userId = userId;
+        this.noteTitle = noteTitle;
+        this.noteDescription = noteDescription;
     }
 
     @Override
     public String toString() {
         return "Note{" +
-                "noteid=" + noteid +
-                ", userid=" + userid +
-                ", notetitle='" + notetitle + '\'' +
-                ", notedescription='" + notedescription + '\'' +
+                "noteId=" + noteId +
+                ", userId=" + userId +
+                ", noteTitle='" + noteTitle + '\'' +
+                ", noteDescription='" + noteDescription + '\'' +
                 '}';
     }
 
-    public Integer getNoteid() {
-        return noteid;
+    public Integer getNoteId() {
+        return noteId;
     }
 
-    public void setNoteid(Integer noteid) {
-        this.noteid = noteid;
+    public void setNoteId(Integer noteId) {
+        this.noteId = noteId;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getNotetitle() {
-        return notetitle;
+    public String getNoteTitle() {
+        return noteTitle;
     }
 
-    public void setNotetitle(String notetitle) {
-        this.notetitle = notetitle;
+    public void setNoteTitle(String noteTitle) {
+        this.noteTitle = noteTitle;
     }
 
-    public String getNotedescription() {
-        return notedescription;
+    public String getNoteDescription() {
+        return noteDescription;
     }
 
-    public void setNotedescription(String notedescription) {
-        this.notedescription = notedescription;
+    public void setNoteDescription(String noteDescription) {
+        this.noteDescription = noteDescription;
     }
 }

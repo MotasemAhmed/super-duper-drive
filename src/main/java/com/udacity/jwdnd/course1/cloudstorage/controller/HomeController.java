@@ -34,7 +34,7 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("errorMessage", "Please login first");
             return "redirect:/login";
         } else {
-            int userId = user.getUserid();
+            int userId = user.getUserId();
             model.addAttribute("fileslist", fileService.getAllFiles(userId));
             model.addAttribute("noteslist", noteService.getAllNotes(userId));
             model.addAttribute("credentialslist", credentialService.getCredentials(userId));

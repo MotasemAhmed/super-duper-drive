@@ -29,19 +29,19 @@ public class Credential {
                 '}';
     }
 
-    public Integer getCredentialid() {
+    public Integer getCredentialId() {
         return credentialid;
     }
 
-    public void setCredentialid(Integer credentialid) {
+    public void setCredentialId(Integer credentialid) {
         this.credentialid = credentialid;
     }
 
-    public Integer getUserid() {
+    public Integer getUserId() {
         return userid;
     }
 
-    public void setUserid(Integer userid) {
+    public void setUserId(Integer userid) {
         this.userid = userid;
     }
 

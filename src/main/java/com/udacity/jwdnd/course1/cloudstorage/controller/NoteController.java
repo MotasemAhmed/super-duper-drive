@@ -35,9 +35,9 @@ public class NoteController {
         String username = authentication.getName();
         User user = userService.getUser(username);
 
-        if (note.getNoteid() != null && note.getNoteid() > 0) {
+        if (note.getNoteId() != null && note.getNoteId() > 0) {
             try {
-                noteService.updateNote(note.getNotetitle(), note.getNotedescription(), note.getNoteid());
+                noteService.updateNote(note.getNoteTitle(), note.getNoteDescription(), note.getNoteId());
                 redirectAttributes.addFlashAttribute("successMessage", "Your note was updated successful.");
                 return "redirect:/home";
             } catch (Exception ex) {
@@ -46,11 +46,12 @@ public class NoteController {
             }
         } else {
             try {
-                note.setUserid(user.getUserid());
-                noteService.addNote(note.getNotetitle(), note.getNotedescription(), note.getUserid());
+                note.setUserId(user.getUserId());
+                noteService.addNote(note.getNoteTitle(), note.getNoteDescription(), note.getUserId());
                 redirectAttributes.addFlashAttribute("successMessage", "Note added");
                 return "redirect:/home";
             } catch (Exception ex) {
+                System.out.println(ex);
                 redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the note creation. Please try again!");
                 return "redirect:/home";
             }
