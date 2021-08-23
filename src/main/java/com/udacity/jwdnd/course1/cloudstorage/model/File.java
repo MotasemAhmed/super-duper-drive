@@ -10,7 +10,7 @@ public class File {
     private String filesize;
     private byte[] fileData;
 
-    public File(Integer fileId, Integer userId, String filename, String contentType, String filesize, byte[] fileData) {
+    public File(Integer fileId, String filename, String contentType, String filesize, Integer userId, byte[] fileData) {
         this.fileId = fileId;
         this.userId = userId;
         this.filename = filename;
