@@ -35,7 +35,7 @@ public class NoteController {
         String username = authentication.getName();
         User user = userService.getUser(username);
 
-        if (note.getNoteid() > 0) {
+        if (note.getNoteid() != null && note.getNoteid() > 0) {
             try {
                 noteService.updateNote(note.getNotetitle(), note.getNotedescription(), note.getNoteid());
                 redirectAttributes.addFlashAttribute("successMessage", "Your note was updated successful.");
