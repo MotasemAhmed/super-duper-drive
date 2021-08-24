@@ -1,54 +1,78 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
+import com.udacity.jwdnd.course1.cloudstorage.exception.FileStorageException;
+import com.udacity.jwdnd.course1.cloudstorage.exception.MyFileNotFoundException;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
-import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FileService {
-    private final UserMapper userMapper;
-    private final FileMapper fileMapper;
+    private final Path fileLocation;
+    @Autowired
+    private FileMapper fileMapper;
 
-    public FileService(UserMapper userMapper, FileMapper fileMapper) {
-        this.userMapper = userMapper;
-        this.fileMapper = fileMapper;
-    }
-
-    public File getFile(String filename) {
-        return fileMapper.getFile(filename);
-    }
-
-    public void addFile(MultipartFile multipartFile, String username) throws IOException {
-        InputStream fis = multipartFile.getInputStream();
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[1024];
-        while ((nRead = fis.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
+    public FileService(FileStoreConfig fileLocation) {
+        this.fileLocation = Paths.get(fileLocation.getUploadDir()).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileLocation);
+        } catch (IOException e) {
+            throw new FileStorageException("Could not create a folder to store files", e);
         }
-        buffer.flush();
-        byte[] fileData = buffer.toByteArray();
-
-        String fileName = multipartFile.getOriginalFilename();
-        String contentType = multipartFile.getContentType();
-        String fileSize = String.valueOf(multipartFile.getSize());
-        Integer userId = userMapper.getUser(username).getUserId();
-        File file = new File(0, fileName, contentType, fileSize, userId, fileData);
-        fileMapper.insertFile(file);
     }
 
-    public List<File> getAllFiles(Integer userId) {
+    public String storeFile(MultipartFile file, User owner) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        try {
+            Path targetLocation = this.fileLocation.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            fileMapper.insertFileUrl(new File(null, fileName, file.getContentType(), "" + file.getSize(), owner.getUserId(), file.getBytes()));
+        } catch (IOException ex) {
+            throw new FileStorageException(String.format("Could not store file %s !! Please try again!", fileName), ex);
+        }
+
+        return fileName;
+    }
+
+    public Resource loadFile(String fileName) {
+        try {
+            Path filePath = this.fileLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists()) {
+                return resource;
+            } else {
+                throw new MyFileNotFoundException("File not found " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new MyFileNotFoundException("File not found " + fileName, ex);
+        }
+    }
+
+    public File findFile(String fileName) {
+        return fileMapper.getFile(fileName);
+    }
+
+    public List<File> getAllFiles(int userId) {
         return fileMapper.getAllFiles(userId);
     }
 
-    public void deleteFile(Integer fileid) {
-        fileMapper.deleteFile(fileid);
+    public Integer deleteFile(int id) {
+
+        return fileMapper.deleteFile(id);
     }
 }

@@ -10,16 +10,16 @@ import java.util.List;
 @Mapper
 public interface FileMapper {
 
-    @Select("SELECT * FROM files WHERE fileName = #{fileName}")
+    @Select("SELECT * FROM files WHERE filename = #{fileName}")
     File getFile(String fileName);
 
-    @Insert("INSERT INTO files ( fileName,userId,userId,fileSize,fileData) VALUES(#{fileName}, #{owner},#{userId},#{fileSize},#{fileData})")
+    @Insert("INSERT INTO files ( filename,userid,contenttype,filesize,filedata) VALUES(#{fileName}, #{owner},#{contentType},#{fileSize},#{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
-    int insertFile(File file);
+    int insertFileUrl(File file);
 
-    @Select("SELECT * FROM files WHERE userId = #{owner}")
+    @Select("SELECT * FROM files WHERE userid = #{owner}")
     List<File> getAllFiles(int userId);
 
     @Delete("DELETE FROM files WHERE fileId = #{fileId}")
-    Integer deleteFile(int fileId);
+    Integer deleteFile(int id);
 }

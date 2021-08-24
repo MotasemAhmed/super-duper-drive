@@ -5,17 +5,17 @@ import java.util.Arrays;
 public class File {
     private Integer fileId;
     private Integer userId;
-    private String filename;
+    private String fileName;
     private String contentType;
-    private String filesize;
+    private String fileSize;
     private byte[] fileData;
 
-    public File(Integer fileId, String filename, String contentType, String filesize, Integer userId, byte[] fileData) {
+    public File(Integer fileId, String fileName, String contentType, String fileSize, Integer userId, byte[] fileData) {
         this.fileId = fileId;
         this.userId = userId;
-        this.filename = filename;
+        this.fileName = fileName;
         this.contentType = contentType;
-        this.filesize = filesize;
+        this.fileSize = fileSize;
         this.fileData = fileData;
     }
 
@@ -24,9 +24,9 @@ public class File {
         return "File{" +
                 "fileid=" + fileId +
                 ", userId=" + userId +
-                ", filename='" + filename + '\'' +
+                ", fileName='" + fileName + '\'' +
                 ", contentType='" + contentType + '\'' +
-                ", filesize='" + filesize + '\'' +
+                ", fileSize='" + fileSize + '\'' +
                 ", fileData=" + Arrays.toString(fileData) +
                 '}';
     }
@@ -42,17 +42,20 @@ public class File {
     public Integer getUserId() {
         return userId;
     }
+    public Integer getOwner() {
+        return userId;
+    }
 
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getFilename() {
-        return filename;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setFilename(String filename) {
-        this.filename = filename;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getContentType() {
@@ -63,12 +66,12 @@ public class File {
         this.contentType = contentType;
     }
 
-    public String getFilesize() {
-        return filesize;
+    public String getFileSize() {
+        return fileSize;
     }
 
-    public void setFilesize(String filesize) {
-        this.filesize = filesize;
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
     }
 
     public byte[] getFileData() {
