@@ -12,12 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
-
-	private static final String FIRSTNAME="Motasem";
-	private static final String LASTNAME="Ahmed";
-	private static final String USERNAME="Mo3ts";
-	private static final String PASSWORD="Pa21";
-
 	@LocalServerPort
 	private int port;
 
@@ -80,12 +74,12 @@ class CloudStorageApplicationTests {
 		driver.get("http://localhost:" + this.port + "/signup");
 
 		SignupPage signupPage = new SignupPage(driver);
-		signupPage.signUp(FIRSTNAME,LASTNAME,USERNAME,PASSWORD);
+		signupPage.signUp("Motasem","Ahmed","Mo3ts","Pa21");
 	}
 	public void login(){
 		driver.get("http://localhost:" + this.port + "/login");
 		LoginPage loginPage = new LoginPage(driver);
-		loginPage.login(USERNAME,PASSWORD);
+		loginPage.login("Mo3ts","Pa21");
 	}
 	public HomePage getHomePage(){
 		signup();

@@ -12,23 +12,16 @@ public class SignupPage {
     @FindBy(id = "inputFirstName")
     private WebElement inputFirstName;
 
-    @FindBy(id = "inputLastName")
-    private WebElement inputLastName;
-
-    @FindBy(id = "inputUsername")
-    private WebElement inputUserName;
-
     @FindBy(id = "inputPassword")
     private WebElement inputPassword;
 
     @FindBy(id = "submit-button")
     private WebElement submitButton;
+    @FindBy(id = "inputLastName")
+    private WebElement inputLastName;
 
-
-    public SignupPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-        js = (JavascriptExecutor) driver;
-    }
+    @FindBy(id = "inputUsername")
+    private WebElement inputUserName;
 
 
     public void signUp(String firstName, String lastName, String userName, String password) {
@@ -38,5 +31,11 @@ public class SignupPage {
         js.executeScript("arguments[0].value='" + password + "';", inputPassword);
         js.executeScript("arguments[0].click();", submitButton);
     }
+
+    public SignupPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        js = (JavascriptExecutor) driver;
+    }
+
 
 }

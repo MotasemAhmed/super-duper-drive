@@ -7,24 +7,28 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage {
-    private final JavascriptExecutor js;
+
+    @FindBy(css = "#submit-button")
+    private WebElement submitButton;
+
     @FindBy(css = "#inputUsername")
     private WebElement usernameField;
 
     @FindBy(css = "#inputPassword")
     private WebElement passwordField;
 
-    @FindBy(css = "#submit-button")
-    private WebElement submitButton;
-
-    public LoginPage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
-        js = (JavascriptExecutor) webDriver;
-    }
+    private final JavascriptExecutor js;
 
     public void login(String userName, String password) {
         js.executeScript("arguments[0].value='" + userName + "';", usernameField);
         js.executeScript("arguments[0].value='" + password + "';", passwordField);
         js.executeScript("arguments[0].click();", submitButton);
     }
+
+    public LoginPage(WebDriver webDriver) {
+        PageFactory.initElements(webDriver, this);
+        js = (JavascriptExecutor) webDriver;
+    }
+
+
 }
