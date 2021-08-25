@@ -7,13 +7,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
+
+	private static final String FIRSTNAME="Motasem";
+	private static final String LASTNAME="Ahmed";
+	private static final String USERNAME="Mo3ts";
+	private static final String PASSWORD="Pa21";
 
 	@LocalServerPort
 	private int port;
 
-	private WebDriver driver;
+	WebDriver driver;
 
 	@BeforeAll
 	static void beforeAll() {
@@ -35,7 +43,54 @@ class CloudStorageApplicationTests {
 	@Test
 	public void getLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
+		assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void unAuthorisedUserAccess(){
+		driver.get("http://localhost:" + this.port + "/home");
+		assertFalse(driver.getTitle() == "Home");
+
+		driver.get("http://localhost:"+this.port+"/login");
+		assertEquals("Login",driver.getTitle() );
+
+		driver.get("http://localhost:"+this.port+"/signup");
+		assertEquals("Sign Up",driver.getTitle() );
+	}
+
+
+	@Test
+	public void testUserSignupAndLogin() throws InterruptedException {
+
+		signup();
+		login();
+		assertEquals("Home", driver.getTitle());
+
+		HomePage homePage = new HomePage(driver);
+		Thread.sleep(2000);
+		homePage.logout();
+
+		driver.get("http://localhost:" + this.port + "/home");
+		assertFalse(driver.getTitle() == "Home");
+		assertEquals("Login", driver.getTitle());
+
+	}
+
+	public void signup(){
+		driver.get("http://localhost:" + this.port + "/signup");
+
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.signUp(FIRSTNAME,LASTNAME,USERNAME,PASSWORD);
+	}
+	public void login(){
+		driver.get("http://localhost:" + this.port + "/login");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(USERNAME,PASSWORD);
+	}
+	public HomePage getHomePage(){
+		signup();
+		login();
+		return new HomePage(driver);
 	}
 
 }
