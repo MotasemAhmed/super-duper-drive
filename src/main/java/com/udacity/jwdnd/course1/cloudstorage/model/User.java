@@ -17,40 +17,24 @@ public class User {
         this.lastname = lastname;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", salt='" + salt + '\'' +
-                ", password='" + password + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
+    public String getLastname() {
+        return lastname;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public String getFirstname() {
+        return firstname;
     }
 
     public String getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
@@ -61,19 +45,24 @@ public class User {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
+
 }
