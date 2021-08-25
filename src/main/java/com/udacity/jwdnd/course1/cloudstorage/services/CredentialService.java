@@ -11,23 +11,24 @@ public class CredentialService {
 
     private final CredentialMapper credentialMapper;
 
-    public CredentialService(CredentialMapper credentialMapper) {
-        this.credentialMapper = credentialMapper;
-    }
-
-    public List<Credential> getCredentials(int userid) {
-        return credentialMapper.getCredentials(userid);
+    public void updateCredential(Credential credential) {
+        credentialMapper.updateCredential(credential);
     }
 
     public int createCredential(Credential credential) {
         return credentialMapper.insertCredential(credential);
     }
 
-    public void updateCredential(Credential credential) {
-        credentialMapper.updateCredential(credential);
-    }
-
     public void deleteCredential(int credentialId) {
         credentialMapper.deleteCredential(credentialId);
     }
+
+    public List<Credential> getCredentials(int userid) {
+        return credentialMapper.getCredentials(userid);
+    }
+
+    public CredentialService(CredentialMapper credentialMapper) {
+        this.credentialMapper = credentialMapper;
+    }
+
 }

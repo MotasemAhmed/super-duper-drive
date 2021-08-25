@@ -1,7 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
-import com.udacity.jwdnd.course1.cloudstorage.exception.FileStorageException;
-import com.udacity.jwdnd.course1.cloudstorage.exception.MyFileNotFoundException;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
@@ -27,13 +25,12 @@ public class FileService {
     @Autowired
     private FileMapper fileMapper;
 
-    public FileService(FileStoreConfig fileLocation) {
-        this.fileLocation = Paths.get(fileLocation.getUploadDir()).toAbsolutePath().normalize();
-        try {
-            Files.createDirectories(this.fileLocation);
-        } catch (IOException e) {
-            throw new FileStorageException("Could not create a folder to store files", e);
-        }
+    public List<File> getAllFiles(int userId) {
+        return fileMapper.getAllFiles(userId);
+    }
+
+    public File findFile(String fileName) {
+        return fileMapper.getFile(fileName);
     }
 
     public String storeFile(MultipartFile file, User owner) throws IOException {
@@ -43,10 +40,24 @@ public class FileService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
             fileMapper.insertFileUrl(new File(null, fileName, file.getContentType(), "" + file.getSize(), owner.getUserId(), file.getBytes()));
         } catch (IOException ex) {
-            throw new FileStorageException(String.format("Could not store file %s !! Please try again!", fileName), ex);
+            throw new StorageException(String.format("Cannot store file %s -- try again later!", fileName), ex);
         }
 
         return fileName;
+    }
+
+    public Integer deleteFile(int id) {
+
+        return fileMapper.deleteFile(id);
+    }
+
+    public FileService(FileStoreConfig fileLocation) {
+        this.fileLocation = Paths.get(fileLocation.getUploadDir()).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileLocation);
+        } catch (IOException e) {
+            throw new StorageException("Could not create a folder to store files", e);
+        }
     }
 
     public Resource loadFile(String fileName) {
@@ -56,23 +67,10 @@ public class FileService {
             if (resource.exists()) {
                 return resource;
             } else {
-                throw new MyFileNotFoundException("File not found " + fileName);
+                throw new CannotFindFileException("File not found " + fileName);
             }
         } catch (MalformedURLException ex) {
-            throw new MyFileNotFoundException("File not found " + fileName, ex);
+            throw new CannotFindFileException("File not found " + fileName, ex);
         }
-    }
-
-    public File findFile(String fileName) {
-        return fileMapper.getFile(fileName);
-    }
-
-    public List<File> getAllFiles(int userId) {
-        return fileMapper.getAllFiles(userId);
-    }
-
-    public Integer deleteFile(int id) {
-
-        return fileMapper.deleteFile(id);
     }
 }

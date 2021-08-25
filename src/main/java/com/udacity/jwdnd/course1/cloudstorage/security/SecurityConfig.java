@@ -11,15 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationService authenticationService;
 
-    public SecurityConfig(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
-        authenticationManagerBuilder.authenticationProvider(this.authenticationService);
-    }
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
@@ -35,4 +26,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.logout();
     }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
+        authenticationManagerBuilder.authenticationProvider(this.authenticationService);
+    }
+
+    public SecurityConfig(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+
 }
