@@ -47,7 +47,7 @@ public class NoteController {
         } else {
             try {
                 note.setUserId(user.getUserId());
-                noteService.addNote(note.getNoteTitle(), note.getNoteDescription(), note.getUserId());
+                noteService.addNote(note);
                 redirectAttributes.addFlashAttribute("successMessage", "Note added");
                 return "redirect:/home";
             } catch (Exception ex) {

@@ -6,11 +6,9 @@ public class Note {
     private String noteTitle;
     private String noteDescription;
 
-    public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
-        this.noteId = noteId;
-        this.userId = userId;
-        this.noteTitle = noteTitle;
-        this.noteDescription = noteDescription;
+    public Note(String title, String description) {
+        this.noteTitle = title;
+        this.noteDescription = description;
     }
 
     @Override
