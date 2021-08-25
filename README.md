@@ -5,7 +5,6 @@
 3. **Password Management:** Save, edit, and delete website credentials.  
 
 ##Roadmap
-Your tech lead is excited to work with you and has laid out a development roadmap with requirements and milestones. They tell you that there are three layers of the application you need to implement:
 
 1. The back-end with Spring Boot
 2. The front-end with Thymeleaf
