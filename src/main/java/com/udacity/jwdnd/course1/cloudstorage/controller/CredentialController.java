@@ -22,10 +22,16 @@ public class CredentialController {
     private final CredentialService credentialService;
     private final EncryptionService encryptionService;
 
-    public CredentialController(UserService userService, CredentialService credentialService, EncryptionService encryptionService) {
-        this.userService = userService;
-        this.credentialService = credentialService;
-        this.encryptionService = encryptionService;
+    @GetMapping("/delete/{credentialId}")
+    public String deleteNote(@PathVariable int credentialId, RedirectAttributes redirectAttributes) {
+        try {
+            credentialService.deleteCredential(credentialId);
+            redirectAttributes.addFlashAttribute("successMessage", "credentials deleted successfully.");
+            return "redirect:/home";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
+            return "redirect:/home";
+        }
     }
 
     @PostMapping
@@ -39,10 +45,10 @@ public class CredentialController {
         if (credential.getCredentialId() != null && credential.getCredentialId() > 0) {
             try {
                 credentialService.updateCredential(credential);
-                redirectAttributes.addFlashAttribute("successMessage", "Your credentials were updated successful.");
+                redirectAttributes.addFlashAttribute("successMessage", "credentials updated successfully.");
                 return "redirect:/home";
             } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the credentials update. Please try again!");
+                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
                 return "redirect:/home";
             }
         } else {
@@ -51,25 +57,12 @@ public class CredentialController {
                 int userId = userService.getUser(username).getUserId();
                 credential.setUserId(userId);
                 credentialService.createCredential(credential);
-                redirectAttributes.addFlashAttribute("successMessage", "Your credentials were created successful.");
+                redirectAttributes.addFlashAttribute("successMessage", "credentials created successfully.");
                 return "redirect:/home";
             } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the Credential creation. Please try again!");
+                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
                 return "redirect:/home";
             }
-        }
-    }
-
-
-    @GetMapping("/delete/{credentialId}")
-    public String deleteNote(@PathVariable int credentialId, RedirectAttributes redirectAttributes) {
-        try {
-            credentialService.deleteCredential(credentialId);
-            redirectAttributes.addFlashAttribute("successMessage", "Your credentials were deleted successful.");
-            return "redirect:/home";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the credentials delete. Please try again!");
-            return "redirect:/home";
         }
     }
 
@@ -79,4 +72,11 @@ public class CredentialController {
         random.nextBytes(key);
         return Base64.getEncoder().encodeToString(key);
     }
+
+    public CredentialController(UserService userService, CredentialService credentialService, EncryptionService encryptionService) {
+        this.userService = userService;
+        this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
+    }
+
 }

@@ -25,6 +25,18 @@ public class NoteController {
         this.userService = userService;
     }
 
+    @GetMapping("/delete/{noteId}")
+    public String deleteNote(@PathVariable int noteId, RedirectAttributes redirectAttributes) {
+        try {
+            noteService.deleteNote(noteId);
+            redirectAttributes.addFlashAttribute("successMessage", "note deleted successfully.");
+            return "redirect:/home";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
+            return "redirect:/home";
+        }
+    }
+
     @GetMapping
     public List<Note> getNotes(int userId) {
         return noteService.getAllNotes(userId);
@@ -38,10 +50,10 @@ public class NoteController {
         if (note.getNoteId() != null && note.getNoteId() > 0) {
             try {
                 noteService.updateNote(note.getNoteTitle(), note.getNoteDescription(), note.getNoteId());
-                redirectAttributes.addFlashAttribute("successMessage", "Your note was updated successful.");
+                redirectAttributes.addFlashAttribute("successMessage", "note updated successfully.");
                 return "redirect:/home";
             } catch (Exception ex) {
-                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the note update. Please try again!");
+                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
                 return "redirect:/home";
             }
         } else {
@@ -51,22 +63,9 @@ public class NoteController {
                 redirectAttributes.addFlashAttribute("successMessage", "Note added");
                 return "redirect:/home";
             } catch (Exception ex) {
-                System.out.println(ex);
-                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the note creation. Please try again!");
+                redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong");
                 return "redirect:/home";
             }
-        }
-    }
-
-    @GetMapping("/delete/{noteId}")
-    public String deleteNote(@PathVariable int noteId, RedirectAttributes redirectAttributes) {
-        try {
-            noteService.deleteNote(noteId);
-            redirectAttributes.addFlashAttribute("successMessage", "Your note was deleted successful.");
-            return "redirect:/home";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Something went wrong with the note delete. Please try again!");
-            return "redirect:/home";
         }
     }
 }

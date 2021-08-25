@@ -22,9 +22,25 @@ public class FileController {
     private final FileService fileService;
     private final UserService userService;
 
-    public FileController(FileService fileService, UserService userService) {
-        this.fileService = fileService;
-        this.userService = userService;
+    @GetMapping("/delete/{id}")
+    public String deleteFile(@PathVariable int id, Model model) {
+        model.addAttribute("successMessage", fileService.deleteFile(id));
+        return "result";
+    }
+
+    @GetMapping("/download/{name}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String name) {
+        Resource file = fileService.loadFile(name);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+    }
+
+    @GetMapping("/{name}")
+    public String getFile(@PathVariable String name, Model model) {
+
+        model.addAttribute("file", fileService.findFile(name));
+        return "result";
     }
 
     @PostMapping
@@ -46,29 +62,14 @@ public class FileController {
             redirectAttributes.addFlashAttribute("successMessage", "The file" + savedFile + " saved successful.");
             return "redirect:/home";
         }
-        redirectAttributes.addFlashAttribute("errorMessage", "The were an error during saving the file. Please try again");
+        redirectAttributes.addFlashAttribute("errorMessage", "The were an error");
         return "redirect:/home";
 
     }
 
-    @GetMapping("/{name}")
-    public String getFile(@PathVariable String name, Model model) {
-
-        model.addAttribute("file", fileService.findFile(name));
-        return "result";
+    public FileController(FileService fileService, UserService userService) {
+        this.fileService = fileService;
+        this.userService = userService;
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteFile(@PathVariable int id, Model model) {
-        model.addAttribute("successMessage", fileService.deleteFile(id));
-        return "result";
-    }
-
-    @GetMapping("/download/{name}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String name) {
-        Resource file = fileService.loadFile(name);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .body(file);
-    }
 }

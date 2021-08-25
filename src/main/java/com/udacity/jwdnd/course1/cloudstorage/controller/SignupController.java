@@ -14,15 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SignupController {
     private final UserService userService;
 
-    public SignupController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping
-    public String signupView() {
-        return "signup";
-    }
-
     @PostMapping
     public String signupUser(@ModelAttribute User user, RedirectAttributes redirectAttributes) {
         String signupError = null;
@@ -42,6 +33,15 @@ public class SignupController {
         }
 
         return "redirect:/signup";
+    }
+
+    @GetMapping
+    public String signupView() {
+        return "signup";
+    }
+
+    public SignupController(UserService userService) {
+        this.userService = userService;
     }
 
 }

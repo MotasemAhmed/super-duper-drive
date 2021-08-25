@@ -18,14 +18,6 @@ public class HomeController {
     private final CredentialService credentialService;
     private final EncryptionService encryptionService;
 
-    public HomeController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService, EncryptionService encryptionService) {
-        this.fileService = fileService;
-        this.userService = userService;
-        this.noteService = noteService;
-        this.credentialService = credentialService;
-        this.encryptionService = encryptionService;
-    }
-
     @GetMapping
     public String homeView(Model model, RedirectAttributes redirectAttributes, Authentication authentication) {
         String username = authentication.getName();
@@ -42,4 +34,13 @@ public class HomeController {
             return "home";
         }
     }
+
+    public HomeController(FileService fileService, UserService userService, NoteService noteService, CredentialService credentialService, EncryptionService encryptionService) {
+        this.fileService = fileService;
+        this.userService = userService;
+        this.noteService = noteService;
+        this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
+    }
+
 }
